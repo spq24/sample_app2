@@ -1,7 +1,23 @@
+<% content_for :head do %>
+ <script type="text/javascript">
+   $(document).ready(function() {
+ 
+      $("#micropost_content").keydown(function() {
+        var counter = $("#counter");
+        var charsRemaining = 140 - $(this).val().length;
+        counter.text(charsRemaining);
+        counter.css('color', (charsRemaining < 0) ? 'red' : 'black');
+      });
+ 
+    });
+ </script>
+<% end %>
+
 <%= form_for(@micropost) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   <div class="field">
     <%= f.text_area :content, placeholder: "Compose new micropost..." %>
   </div>
+  <div id="counter" class="counter">140</div>
   <%= f.submit "Post", class: "btn btn-large btn-primary" %>
 <% end %>
