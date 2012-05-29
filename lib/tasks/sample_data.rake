@@ -15,7 +15,6 @@ namespace :db do
                    email: email,
                    password: password,
                    password_confirmation: password)
-    end
 
      users = User.all(limit: 6)
       50.times do

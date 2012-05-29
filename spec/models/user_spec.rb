@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
 
-before do
+  before do
     @user = User.new(name: "Example User", email: "user@example.com", 
                      password: "foobar", password_confirmation: "foobar")
   end
@@ -128,9 +128,16 @@ before do
     it "should have the right microposts in the right order" do
       @user.microposts.should == [newer_micropost, older_micropost]
     end
-  end
+    
+    it "should destroy associated microposts" do
+      microposts = @user.microposts
+      @user.destroy
+      microposts.each do |micropost|
+        Micropost.find_by_id(micropost.id).should be_nil
+      end
+    end
 
-  describe "status" do
+    describe "status" do
       let(:unfollowed_post) do
         FactoryGirl.create(:micropost, user: FactoryGirl.create(:user))
       end
